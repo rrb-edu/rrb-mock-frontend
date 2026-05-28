@@ -1,0 +1,88 @@
+# Query: http://localhost:5000
+# ContextLines: 1
+
+18 results - 12 files
+
+admin-dashboard.html:
+  187    const res = await fetch(
+  188:     "http://localhost:5000/api/results/delete/" + id,
+  189      {
+
+  201    const res =
+  202:     await fetch("http://localhost:5000/api/results/leaderboard");
+  203  
+
+dashboard.html:
+  168    const res =
+  169:     await fetch("http://localhost:5000/api/results/leaderboard");
+  170  
+
+  196    const orderRes = await fetch(
+  197:     "http://localhost:5000/api/payment/create-order",
+  198      {
+
+  220        const res = await fetch(
+  221:         "http://localhost:5000/api/auth/activate-premium",
+  222          {
+
+history.html:
+  91      await fetch(
+  92:       "http://localhost:5000/api/results/leaderboard"
+  93      );
+
+leaderboard.html:
+  82    const res =
+  83:     await fetch("http://localhost:5000/api/results/leaderboard");
+  84  
+
+login.html:
+  74  <script>
+  75: const API_URL = "http://localhost:5000/api/auth";
+  76  
+
+script.js:
+  364  localStorage.removeItem("examStarted");
+  365: fetch("http://localhost:5000/api/results/save", {
+  366    method: "POST",
+
+mocktest-frontend\admin-dashboard.html:
+  187    const res = await fetch(
+  188:     "http://localhost:5000/api/results/delete/" + id,
+  189      {
+
+  201    const res =
+  202:     await fetch("http://localhost:5000/api/results/leaderboard");
+  203  
+
+mocktest-frontend\dashboard.html:
+  168    const res =
+  169:     await fetch("http://localhost:5000/api/results/leaderboard");
+  170  
+
+  196    const orderRes = await fetch(
+  197:     "http://localhost:5000/api/payment/create-order",
+  198      {
+
+  220        const res = await fetch(
+  221:         "http://localhost:5000/api/auth/activate-premium",
+  222          {
+
+mocktest-frontend\history.html:
+  92      await fetch(
+  93:       "http://localhost:5000/api/results/leaderboard"
+  94      );
+
+mocktest-frontend\leaderboard.html:
+  82    const res =
+  83:     await fetch("http://localhost:5000/api/results/leaderboard");
+  84  
+
+mocktest-frontend\login.html:
+  74  <script>
+  75: const API_URL = "http://localhost:5000/api/auth";
+  76  
+
+mocktest-frontend\script.js:
+  364  localStorage.removeItem("examStarted");
+  365: fetch("http://localhost:5000/api/results/save", {
+  366    method: "POST",

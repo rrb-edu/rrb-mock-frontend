@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Result</title>
+  <style>
+    body{
+      font-family:Arial;
+      background:#f1f5f9;
+      padding:40px;
+    }
+
+    .result-box{
+      max-width:700px;
+      margin:auto;
+      background:white;
+      padding:35px;
+      border-radius:20px;
+      text-align:center;
+      box-shadow:0 10px 30px #0002;
+    }
+
+    h1{color:#2563eb;}
+
+    .score{
+      font-size:45px;
+      color:#16a34a;
+      margin:25px 0;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:20px;
+      margin-top:30px;
+    }
+
+    .card{
+      background:#f8fafc;
+      padding:22px;
+      border-radius:15px;
+      font-size:22px;
+      font-weight:bold;
+    }
+
+    button{
+      margin-top:30px;
+      padding:15px 30px;
+      border:none;
+      background:#2563eb;
+      color:white;
+      border-radius:10px;
+      font-size:18px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="result-box">
+  <h1>RRB Mock Test Result</h1>
+
+  <div class="score" id="finalScore">0</div>
+
+  <div class="grid">
+    <div class="card">Correct: <span id="correct">0</span></div>
+    <div class="card">Wrong: <span id="wrong">0</span></div>
+    <div class="card">Unanswered: <span id="unanswered">0</span></div>
+    <div class="card">Percentage: <span id="percentage">0%</span></div>
+  </div>
+
+  <button onclick="location.href='index.html'">Retake Test</button>
+  <button onclick="location.href='review.html'">
+  Review Answers
+</button>
+
+<button onclick="downloadResultPDF()">
+  Download Result PDF
+</button>
+<button onclick="location.href='leaderboard.html'">
+  View Leaderboard
+</button>
+</div>
+
+<script>
+  const result = JSON.parse(localStorage.getItem("examResult"));
+
+  if(result){
+    document.getElementById("finalScore").innerText =
+      result.score + " Marks";
+
+    document.getElementById("correct").innerText =
+      result.correct;
+
+    document.getElementById("wrong").innerText =
+      result.wrong;
+
+    document.getElementById("unanswered").innerText =
+      result.unanswered;
+
+    document.getElementById("percentage").innerText =
+      result.percentage + "%";
+  }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+function downloadResultPDF(){
+
+  const result =
+    JSON.parse(localStorage.getItem("examResult"));
+
+  const name =
+    localStorage.getItem("candidateName");
+
+  const roll =
+    localStorage.getItem("candidateRoll");
+
+  const { jsPDF } = window.jspdf;
+
+  const doc = new jsPDF();
+
+  doc.setFontSize(20);
+  doc.text("RRB Mock Test Result", 20, 25);
+
+  doc.setFontSize(13);
+  doc.text("Candidate Name: " + name, 20, 45);
+  doc.text("Roll Number: " + roll, 20, 55);
+
+  doc.text("Correct Answers: " + result.correct, 20, 75);
+  doc.text("Wrong Answers: " + result.wrong, 20, 85);
+  doc.text("Unanswered: " + result.unanswered, 20, 95);
+  doc.text("Final Score: " + result.score, 20, 105);
+  doc.text("Percentage: " + result.percentage + "%", 20, 115);
+
+  doc.save("RRB-Mock-Test-Result.pdf");
+}
+</script>
+
+</body>
+</html>

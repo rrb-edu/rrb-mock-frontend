@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Instructions</title>
+
+  <style>
+
+    body{
+      font-family:Arial;
+      background:#f1f5f9;
+      padding:40px;
+    }
+
+    .box{
+      max-width:900px;
+      margin:auto;
+      background:white;
+      padding:40px;
+      border-radius:20px;
+    }
+
+    h1{
+      margin-bottom:25px;
+      color:#2563eb;
+    }
+
+    ul{
+      line-height:2;
+      margin-bottom:30px;
+    }
+
+    button{
+      padding:15px 30px;
+      border:none;
+      background:#2563eb;
+      color:white;
+      border-radius:10px;
+      cursor:pointer;
+      font-size:18px;
+    }
+
+  </style>
+
+</head>
+<body>
+
+<div class="box">
+
+  <h1>Exam Instructions</h1>
+
+  <ul>
+    <li>Total Questions: 120</li>
+    <li>Each Question carries 1 mark</li>
+    <li>Negative Marking: 1/3</li>
+    <li>Total Time: 90 Minutes</li>
+    <li>Do not refresh browser during exam</li>
+    <li>Click Submit after completion</li>
+  </ul>
+
+  <button onclick="startExam()">
+    Start Exam
+  </button>
+
+</div>
+
+<script>
+function startExam(){
+
+  localStorage.removeItem("savedAnswers");
+  localStorage.removeItem("savedReview");
+  localStorage.removeItem("savedVisited");
+  localStorage.removeItem("savedTime");
+  localStorage.removeItem("examResult");
+  localStorage.removeItem("userAnswers");
+  localStorage.removeItem("questionsData");
+
+  localStorage.setItem("examStarted", "yes");
+
+  window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>

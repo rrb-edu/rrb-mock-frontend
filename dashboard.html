@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+
+<style>
+
+body{
+  font-family:Arial;
+  background:#f1f5f9;
+  padding:40px;
+}
+
+.dashboard{
+  max-width:900px;
+  margin:auto;
+  background:white;
+  padding:40px;
+  border-radius:20px;
+}
+
+h1{
+  color:#2563eb;
+  margin-bottom:30px;
+}
+
+.card{
+  background:#eff6ff;
+  padding:20px;
+  border-radius:15px;
+  margin-bottom:20px;
+  font-size:22px;
+}
+
+button{
+  padding:15px 30px;
+  border:none;
+  background:#2563eb;
+  color:white;
+  border-radius:10px;
+  font-size:18px;
+  cursor:pointer;
+}
+button:hover {
+  background-color: #ec1f63; /* Darker blue when hovered */
+}
+.premium-btn{
+  background:#f59e0b;
+  margin-left:10px;
+}
+.upgrade-btn{
+  background:#7c3aed;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<h1>Student Dashboard</h1>
+
+<div class="card">
+  Name:
+  <span id="name"></span>
+</div>
+
+<div class="card">
+  Roll Number:
+  <span id="roll"></span>
+</div>
+
+<div class="card">
+  Premium Status:
+  <span id="premium"></span>
+</div>
+<div class="card">
+  Available Tests:
+  <!-- HTML Structure -->
+  <button onclick="startFreeTest()">Free Mock Test</button>
+  <button class="premium-btn" onclick="startPremiumTest()">Premium Mock Test 🔒</button>
+</div>
+<br><br>
+<br><br>
+<button class="upgrade-btn" onclick="upgradePremium()">
+  Upgrade to Premium
+</button>
+<button onclick="location.href='history.html'">
+  View Exam History
+</button>
+<div class="card">
+  Total Exams Taken:
+  <span id="totalExams">0</span>
+</div>
+
+<div class="card">
+  Best Score:
+  <span id="bestScore">0</span>
+</div>
+
+<div class="card">
+  Latest Score:
+  <span id="latestScore">0</span>
+</div>
+<!--button to view leaderboard coming next-->
+</div>
+<script>
+document.getElementById("name").innerText =
+  localStorage.getItem("candidateName");
+
+document.getElementById("roll").innerText =
+  localStorage.getItem("candidateRoll");
+
+const premiumStatus =
+  localStorage.getItem("isPremium");
+
+if(premiumStatus === "true"){
+
+  document.getElementById("premium").innerHTML =
+    "🌟 Premium User";
+
+}
+else{
+
+  document.getElementById("premium").innerHTML =
+    "Free User";
+
+}
+function startFreeTest(){
+
+  localStorage.setItem("selectedTest", "free");
+
+  window.location.href =
+    "instructions.html";
+
+}
+
+function startPremiumTest(){
+
+  const isPremium =
+    localStorage.getItem("isPremium");
+
+  if(isPremium === "true"){
+
+    localStorage.setItem("selectedTest", "premium");
+
+    window.location.href =
+      "instructions.html";
+
+  }
+  else{
+
+    alert(
+      "This is a premium mock test. Please upgrade to premium."
+    );
+
+  }
+
+}
+
+async function loadMyStats(){
+
+  const roll =
+    localStorage.getItem("candidateRoll");
+
+  const res =
+    await fetch("http://localhost:5000/api/results/leaderboard");
+
+  const results =
+    await res.json();
+
+  const myResults =
+    results.filter(r => r.roll === roll);
+
+  document.getElementById("totalExams").innerText =
+    myResults.length;
+
+  if(myResults.length > 0){
+
+    const best =
+      Math.max(...myResults.map(r => r.score));
+
+    document.getElementById("bestScore").innerText =
+      best;
+
+    document.getElementById("latestScore").innerText =
+      myResults[0].score;
+
+  }
+
+}
+async function upgradePremium(){
+
+  const orderRes = await fetch(
+    "http://localhost:5000/api/payment/create-order",
+    {
+      method: "POST"
+    }
+  );
+
+  const order = await orderRes.json();
+
+  const options = {
+     key: "rzp_live_SukncxAHKM6fcB",
+    amount: order.amount,
+    currency: order.currency,
+    name: "RRB Mock Test",
+    description: "Premium Mock Test Access",
+    order_id: order.id,
+
+    handler: async function(response){
+
+      alert("Payment Successful");
+
+      const email =
+        localStorage.getItem("candidateEmail");
+
+      const res = await fetch(
+        "http://localhost:5000/api/auth/activate-premium",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ email })
+        }
+      );
+
+      const data = await res.json();
+
+      localStorage.setItem(
+        "isPremium",
+        data.user.isPremium
+      );
+
+      alert("Premium Activated Successfully");
+
+      location.reload();
+    },
+
+    theme: {
+      color: "#2563eb"
+    }
+  };
+
+  const rzp = new Razorpay(options);
+
+  rzp.open();
+}
+</script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</body>
+</html>
