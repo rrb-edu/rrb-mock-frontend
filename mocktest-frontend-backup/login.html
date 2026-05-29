@@ -317,6 +317,10 @@ async function loginUser(){
     localStorage.setItem("candidateRoll", data.user.roll);
     localStorage.setItem("candidateEmail", data.user.email);
     localStorage.setItem("isPremium", data.user.isPremium);
+    localStorage.setItem(
+  "premiumExpiry",
+  data.user.premiumExpiry
+);
 
     window.location.href = "dashboard.html";
 
