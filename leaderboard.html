@@ -80,7 +80,7 @@
 async function loadLeaderboard(){
 
   const res =
-    await fetch("http://localhost:5000/api/results/leaderboard");
+    await fetch("https://rrb-mock-backend.onrender.com/api/results/leaderboard");
 
   const leaderboard =
     await res.json();

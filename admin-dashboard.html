@@ -68,6 +68,9 @@ th{
 <div class="container">
 
 <h1>Admin Dashboard</h1>
+<button onclick="location.href='admin-payments.html'">
+  View Payments
+</button>
 
   <div class="search-box">
 
@@ -185,7 +188,7 @@ async function deleteResult(id){
   if(!confirmDelete) return;
 
   const res = await fetch(
-    "http://localhost:5000/api/results/delete/" + id,
+    "https://rrb-mock-backend.onrender.com/api/results/delete/" + id,
     {
       method: "DELETE"
     }
@@ -199,7 +202,7 @@ async function deleteResult(id){
 }
 async function loadAdminData(){
   const res =
-    await fetch("http://localhost:5000/api/results/leaderboard");
+    await fetch("https://rrb-mock-backend.onrender.com/api/results/leaderboard");
 
   const results =
     await res.json();

@@ -224,8 +224,12 @@ const premiumStatus =
   localStorage.getItem("isPremium");
 
 if(premiumStatus === "true"){
-  document.getElementById("premium").innerHTML =
-    "🌟 Premium User";
+const expiry =
+  localStorage.getItem("premiumExpiry");
+
+document.getElementById("premium").innerHTML =
+  "🌟 Premium User<br>Expires: " +
+  new Date(expiry).toLocaleDateString();
 }
 else{
   document.getElementById("premium").innerHTML =
