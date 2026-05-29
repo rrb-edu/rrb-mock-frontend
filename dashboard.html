@@ -2,56 +2,142 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Dashboard</title>
+<title>Student Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',Arial,sans-serif;
+}
 
 body{
-  font-family:Arial;
-  background:#f1f5f9;
-  padding:40px;
+  min-height:100vh;
+  background:linear-gradient(135deg,#0f172a,#2563eb,#7c3aed);
+  padding:30px;
+  color:white;
 }
 
 .dashboard{
-  max-width:900px;
+  max-width:1150px;
   margin:auto;
-  background:white;
-  padding:40px;
-  border-radius:20px;
 }
 
-h1{
-  color:#2563eb;
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
   margin-bottom:30px;
 }
 
+.header h1{
+  font-size:36px;
+}
+
+.badge{
+  padding:12px 22px;
+  border-radius:30px;
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(14px);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+  margin-bottom:25px;
+}
+
 .card{
-  background:#eff6ff;
-  padding:20px;
-  border-radius:15px;
-  margin-bottom:20px;
-  font-size:22px;
+  background:rgba(255,255,255,0.16);
+  backdrop-filter:blur(18px);
+  border:1px solid rgba(255,255,255,0.22);
+  border-radius:24px;
+  padding:25px;
+  box-shadow:0 20px 45px rgba(0,0,0,0.25);
+}
+
+.card h3{
+  font-size:16px;
+  opacity:.8;
+  margin-bottom:10px;
+}
+
+.card p{
+  font-size:28px;
+  font-weight:bold;
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+  margin:30px 0;
 }
 
 button{
-  padding:15px 30px;
   border:none;
-  background:#2563eb;
+  padding:18px;
+  border-radius:18px;
   color:white;
-  border-radius:10px;
   font-size:18px;
+  font-weight:600;
   cursor:pointer;
+  transition:.3s;
 }
-button:hover {
-  background-color: #ec1f63; /* Darker blue when hovered */
+
+button:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 30px rgba(0,0,0,.3);
 }
-.premium-btn{
-  background:#f59e0b;
-  margin-left:10px;
+
+.free{
+  background:linear-gradient(135deg,#22c55e,#16a34a);
 }
-.upgrade-btn{
-  background:#7c3aed;
-  margin-top:10px;
+
+.premium{
+  background:linear-gradient(135deg,#f59e0b,#f97316);
+}
+
+.upgrade{
+  background:linear-gradient(135deg,#a855f7,#7c3aed);
+}
+
+.history{
+  background:linear-gradient(135deg,#06b6d4,#2563eb);
+}
+
+.logout{
+  background:linear-gradient(135deg,#ef4444,#dc2626);
+}
+
+.section-title{
+  margin:25px 0 15px;
+  font-size:24px;
+}
+
+.note{
+  text-align:center;
+  margin-top:20px;
+  opacity:.8;
+}
+
+@media(max-width:600px){
+  body{
+    padding:18px;
+  }
+
+  .header{
+    flex-direction:column;
+    gap:15px;
+    text-align:center;
+  }
+
+  .header h1{
+    font-size:28px;
+  }
 }
 </style>
 </head>
@@ -60,81 +146,95 @@ button:hover {
 
 <div class="dashboard">
 
-<h1>Student Dashboard</h1>
+  <div class="header">
+    <div>
+      <h1>RRB EDU Dashboard</h1>
+      <p>Welcome back, <span id="name"></span></p>
+    </div>
 
-<div class="card">
-  Name:
-  <span id="name"></span>
+    <div class="badge" id="premium">
+      Free User
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <h3>Roll Number</h3>
+      <p id="roll"></p>
+    </div>
+
+    <div class="card">
+      <h3>Total Exams Taken</h3>
+      <p id="totalExams">0</p>
+    </div>
+
+    <div class="card">
+      <h3>Best Score</h3>
+      <p id="bestScore">0</p>
+    </div>
+
+    <div class="card">
+      <h3>Latest Score</h3>
+      <p id="latestScore">0</p>
+    </div>
+
+  </div>
+
+  <h2 class="section-title">Available Tests</h2>
+
+  <div class="actions">
+
+    <button class="free" onclick="startFreeTest()">
+      Free Mock Test
+    </button>
+
+    <button class="premium" onclick="startPremiumTest()">
+      Premium Mock Test 🔒
+    </button>
+
+    <button class="upgrade" onclick="upgradePremium()">
+      Upgrade to Premium
+    </button>
+
+    <button class="history" onclick="location.href='history.html'">
+      View Exam History
+    </button>
+
+    <button class="logout" onclick="logoutUser()">
+      Logout
+    </button>
+
+  </div>
+
+  <p class="note">
+    Practice daily • Track your progress • Unlock premium tests
+  </p>
+
 </div>
 
-<div class="card">
-  Roll Number:
-  <span id="roll"></span>
-</div>
-
-<div class="card">
-  Premium Status:
-  <span id="premium"></span>
-</div>
-<div class="card">
-  Available Tests:
-  <!-- HTML Structure -->
-  <button onclick="startFreeTest()">Free Mock Test</button>
-  <button class="premium-btn" onclick="startPremiumTest()">Premium Mock Test 🔒</button>
-</div>
-<br><br>
-<br><br>
-<button class="upgrade-btn" onclick="upgradePremium()">
-  Upgrade to Premium
-</button>
-<button onclick="location.href='history.html'">
-  View Exam History
-</button>
-<div class="card">
-  Total Exams Taken:
-  <span id="totalExams">0</span>
-</div>
-
-<div class="card">
-  Best Score:
-  <span id="bestScore">0</span>
-</div>
-
-<div class="card">
-  Latest Score:
-  <span id="latestScore">0</span>
-</div>
-<!--button to view leaderboard coming next-->
-</div>
 <script>
 document.getElementById("name").innerText =
-  localStorage.getItem("candidateName");
+  localStorage.getItem("candidateName") || "Student";
 
 document.getElementById("roll").innerText =
-  localStorage.getItem("candidateRoll");
+  localStorage.getItem("candidateRoll") || "-";
 
 const premiumStatus =
   localStorage.getItem("isPremium");
 
 if(premiumStatus === "true"){
-
   document.getElementById("premium").innerHTML =
     "🌟 Premium User";
-
 }
 else{
-
   document.getElementById("premium").innerHTML =
     "Free User";
-
 }
+
 function startFreeTest(){
-
   localStorage.setItem("selectedTest", "free");
-
-  window.location.href =
-    "instructions.html";
-
+  window.location.href = "instructions.html";
 }
 
 function startPremiumTest(){
@@ -143,21 +243,17 @@ function startPremiumTest(){
     localStorage.getItem("isPremium");
 
   if(isPremium === "true"){
-
     localStorage.setItem("selectedTest", "premium");
-
-    window.location.href =
-      "instructions.html";
-
+    window.location.href = "instructions.html";
   }
   else{
-
-    alert(
-      "This is a premium mock test. Please upgrade to premium."
-    );
-
+    alert("This is a premium mock test. Please upgrade to premium.");
   }
+}
 
+function logoutUser(){
+  localStorage.clear();
+  window.location.href = "login.html";
 }
 
 async function loadMyStats(){
@@ -166,7 +262,7 @@ async function loadMyStats(){
     localStorage.getItem("candidateRoll");
 
   const res =
-    await fetch("http://localhost:5000/api/results/leaderboard");
+    await fetch("https://rrb-mock-backend.onrender.com/api/results/leaderboard");
 
   const results =
     await res.json();
@@ -187,23 +283,20 @@ async function loadMyStats(){
 
     document.getElementById("latestScore").innerText =
       myResults[0].score;
-
   }
-
 }
+
 async function upgradePremium(){
 
   const orderRes = await fetch(
-    "http://localhost:5000/api/payment/create-order",
-    {
-      method: "POST"
-    }
+    "https://rrb-mock-backend.onrender.com/api/payment/create-order",
+    { method: "POST" }
   );
 
   const order = await orderRes.json();
 
   const options = {
-     key: "rzp_live_SukncxAHKM6fcB",
+    key: "rzp_live_SukncxAHKM6fcB",
     amount: order.amount,
     currency: order.currency,
     name: "RRB Mock Test",
@@ -218,7 +311,7 @@ async function upgradePremium(){
         localStorage.getItem("candidateEmail");
 
       const res = await fetch(
-        "http://localhost:5000/api/auth/activate-premium",
+        "https://rrb-mock-backend.onrender.com/api/auth/activate-premium",
         {
           method: "POST",
           headers: {
@@ -235,8 +328,24 @@ async function upgradePremium(){
         data.user.isPremium
       );
 
-      alert("Premium Activated Successfully");
+      fetch(
+        "https://rrb-mock-backend.onrender.com/api/payments/save",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: localStorage.getItem("candidateName"),
+            email: localStorage.getItem("candidateEmail"),
+            amount: 99,
+            paymentId: response.razorpay_payment_id,
+            orderId: response.razorpay_order_id
+          })
+        }
+      );
 
+      alert("Premium Activated Successfully");
       location.reload();
     },
 
@@ -246,10 +355,13 @@ async function upgradePremium(){
   };
 
   const rzp = new Razorpay(options);
-
   rzp.open();
 }
+
+loadMyStats();
 </script>
+
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 </body>
 </html>
