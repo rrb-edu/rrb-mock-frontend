@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaderboard</title>
+  <style>
+    body{
+      font-family:Arial;
+      background:#f1f5f9;
+      padding:40px;
+    }
+
+    .box{
+      max-width:900px;
+      margin:auto;
+      background:white;
+      padding:30px;
+      border-radius:20px;
+    }
+
+    h1{
+      color:#2563eb;
+      text-align:center;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:25px;
+    }
+
+    th,td{
+      padding:15px;
+      border:1px solid #ddd;
+      text-align:center;
+      font-size:18px;
+    }
+
+    th{
+      background:#2563eb;
+      color:white;
+    }
+
+    button{
+      margin-top:25px;
+      padding:14px 25px;
+      background:#2563eb;
+      color:white;
+      border:none;
+      border-radius:10px;
+      font-size:18px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h1>🏆 Global Leaderboard</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Name</th>
+        <th>Roll No</th>
+        <th>Score</th>
+        <th>Percentage</th>
+      </tr>
+    </thead>
+
+    <tbody id="leaderboardBody"></tbody>
+  </table>
+
+  <button onclick="location.href='result.html'">
+    Back to Result
+  </button>
+</div>
+
+<script>
+async function loadLeaderboard(){
+
+  const res =
+    await fetch("https://rrb-mock-backend.onrender.com/api/results/leaderboard");
+
+  const leaderboard =
+    await res.json();
+
+  let body =
+    document.getElementById("leaderboardBody");
+
+  body.innerHTML = "";
+
+  leaderboard.forEach((student,index)=>{
+
+    body.innerHTML += `
+      <tr>
+        <td>
+
+${index === 0 ? "🥇" :
+  index === 1 ? "🥈" :
+  index === 2 ? "🥉" :
+  index + 1}
+
+</td>
+        <td>${student.name}</td>
+        <td>${student.roll}</td>
+        <td style="color:${student.score < 0 ? 'red' : 'green'}; font-weight:bold;">
+  ${student.score}
+</td>
+        <td>${student.percentage}%</td>
+      </tr>
+    `;
+
+  });
+
+}
+
+loadLeaderboard();
+</script>
+
+</body>
+</html>

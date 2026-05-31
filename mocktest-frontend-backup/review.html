@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Answer Review</title>
+  <style>
+    body{
+      font-family:Arial;
+      background:#f1f5f9;
+      padding:30px;
+    }
+
+    .box{
+      background:white;
+      padding:25px;
+      border-radius:15px;
+      margin-bottom:20px;
+    }
+
+    h1{
+      color:#2563eb;
+    }
+
+    .correct{
+      color:#16a34a;
+      font-weight:bold;
+    }
+
+    .wrong{
+      color:#dc2626;
+      font-weight:bold;
+    }
+
+    .not{
+      color:#f97316;
+      font-weight:bold;
+    }
+
+    button{
+      padding:14px 25px;
+      background:#2563eb;
+      color:white;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      font-size:18px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Answer Review</h1>
+
+<div id="reviewBox"></div>
+
+<button onclick="location.href='result.html'">Back to Result</button>
+
+<script>
+const questions = JSON.parse(localStorage.getItem("questionsData"));
+const answers = JSON.parse(localStorage.getItem("userAnswers"));
+
+let reviewBox = document.getElementById("reviewBox");
+
+questions.forEach((q, index)=>{
+
+  let userAns = answers[index];
+  let correctAns = q.answer;
+
+  let status = "";
+
+  if(userAns === null){
+    status = `<p class="not">Not Answered</p>`;
+  }
+  else if(userAns === correctAns){
+    status = `<p class="correct">Correct</p>`;
+  }
+  else{
+    status = `<p class="wrong">Wrong</p>`;
+  }
+
+  reviewBox.innerHTML += `
+    <div class="box">
+      <h2>Question ${index + 1}</h2>
+      <p>${q.q}</p>
+
+      <p>Your Answer:
+        <b>${userAns === null ? "Not Answered" : q.options[userAns]}</b>
+      </p>
+
+      <p>Correct Answer:
+        <b>${q.options[correctAns]}</b>
+      </p>
+
+      ${status}
+    </div>
+  `;
+});
+</script>
+
+</body>
+</html>
