@@ -155,6 +155,10 @@ button:hover{
     <div class="badge" id="premium">
       Free User
     </div>
+    <div class="card">
+  <h3>Premium Remaining</h3>
+  <p id="premiumCountdown">--</p>
+</div>
   </div>
 
   <div class="grid">
@@ -378,6 +382,31 @@ async function upgradePremium(){
 }
 
 loadMyStats();
+
+
+const expiry =
+  localStorage.getItem("premiumExpiry");
+
+if(expiry){
+
+  const now = new Date();
+
+  const end = new Date(expiry);
+
+  const diff =
+    end - now;
+
+  const days =
+    Math.max(
+      0,
+      Math.ceil(diff / (1000 * 60 * 60 * 24))
+    );
+
+  document.getElementById(
+    "premiumCountdown"
+  ).innerText =
+    days + " Days";
+}
 </script>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
